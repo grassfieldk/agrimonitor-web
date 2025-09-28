@@ -3,25 +3,33 @@
 import { useEffect, useState } from "react";
 import type { SensorData } from "@/types/types";
 
+const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
+
 export default function Home() {
   const [data, setData] = useState<SensorData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/sensor")
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.error) {
-          setError(json.error);
-        } else {
-          setData(json);
-        }
-      })
-      .catch((err) => setError(String(err)));
+    let timer: NodeJS.Timeout;
+    const fetchData = () => {
+      fetch("/api/sensor")
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.error) {
+            setError(json.error);
+          } else {
+            setData(json);
+          }
+        })
+        .catch((err) => setError(String(err)));
+    };
+    fetchData();
+    timer = setInterval(fetchData, fetchInterval * 1000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="container m-auto py-8">
+    <div>
       {error ? (
         <div className="text-red-500">データ取得エラー: {error}</div>
       ) : data ? (

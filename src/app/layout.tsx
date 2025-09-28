@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${notoSans.variable} ${notoMono.variable} antialiased`}>
-        {children}
+        <div className="container mx-auto p-4">{children}</div>
       </body>
     </html>
   );
