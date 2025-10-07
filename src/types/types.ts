@@ -4,3 +4,10 @@ export type SensorData = {
   temperature: string;
   humidity: string;
 };
+
+export const initialSensorData: SensorData = {
+  datetime: "-",
+  unixtime: 0,
+  temperature: "-",
+  humidity: "-",
+};
