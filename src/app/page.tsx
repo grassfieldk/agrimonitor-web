@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { initialSensorData, type SensorData } from "@/types/types";
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
 
 export default function Home() {
@@ -19,7 +20,7 @@ export default function Home() {
         const sensorJson = await sensorRes.json();
         setData(sensorJson);
 
-        setPhotoUrl(`/api/photo?${Date.now()}`);
+        setPhotoUrl(`${backendUrl}/public/recent.jpg?${Date.now()}`);
       } catch (err) {
         setError(String(err));
         setData(initialSensorData);
