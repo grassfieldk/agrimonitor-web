@@ -1,0 +1,214 @@
+{
+  "vegetables": [
+    {
+      "id": 1,
+      "name": "キャベツ",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 30 },
+          "limitRange": { "low": 8, "high": 35 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "きゅうり",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 25, "high": 30 },
+          "limitRange": { "low": 18, "high": 30 }
+        },
+        "growth": {
+          "optimumRange": { "low": 18, "high": 25 },
+          "limitRange": { "low": 12, "high": 30 }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "さといも",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 25, "high": 35 },
+          "limitRange": { "low": 15, "high": null }
+        },
+        "growth": {
+          "optimumRange": { "low": 25, "high": 30 },
+          "limitRange": { "low": 5, "high": 35 }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "だいこん",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 35 },
+          "limitRange": { "low": 10, "high": 40 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 10, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "トマト",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 27 },
+          "limitRange": { "low": 11, "high": 30 }
+        },
+        "growth": {
+          "optimumRange": { "low": 21, "high": 26 },
+          "limitRange": { "low": 5, "high": 30 }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name": "なす",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 20, "high": 25 },
+          "limitRange": { "low": 15, "high": null }
+        },
+        "growth": {
+          "optimumRange": { "low": 22, "high": 30 },
+          "limitRange": { "low": 17, "high": 33 }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "にんじん",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 25 },
+          "limitRange": { "low": 11, "high": 35 }
+        },
+        "growth": {
+          "optimumRange": { "low": 16, "high": 20 },
+          "limitRange": { "low": 7, "high": 28 }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name": "ねぎ",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 30 },
+          "limitRange": { "low": 4, "high": null }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 30 }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "name": "はくさい",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 20, "high": 20 },
+          "limitRange": { "low": 5, "high": 40 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 10, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "name": "ピーマン",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 30, "high": 35 },
+          "limitRange": { "low": 15, "high": null }
+        },
+        "growth": {
+          "optimumRange": { "low": 25, "high": 30 },
+          "limitRange": { "low": 10, "high": 35 }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "name": "レタス",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 4, "high": 25 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "name": "たまねぎ",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 18, "high": 18 },
+          "limitRange": { "low": 4, "high": 30 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "name": "ジャガイモ",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 25 },
+          "limitRange": { "low": null, "high": null }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 24 },
+          "limitRange": { "low": 10, "high": 29 }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "name": "ほうれんそう",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 30 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 25 }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "name": "ブロッコリー",
+      "temperature": {
+        "germination": {
+          "optimumRange": { "low": 25, "high": 25 },
+          "limitRange": { "low": 15, "high": 30 }
+        },
+        "growth": {
+          "optimumRange": { "low": 15, "high": 20 },
+          "limitRange": { "low": 5, "high": 25 }
+        }
+      }
+    }
+  ]
+}
