@@ -28,7 +28,9 @@ export default function RootLayout({
         <nav className="w-full bg-neutral-900 text-white text-center py-3 px-6 shadow">
           <div className="max-w-xl mx-auto text-lg font-bold">Agrimonitor</div>
         </nav>
-        <div className="container max-w-screen-xl mx-auto p-4">{children}</div>
+        <div className="container max-w-screen-xl mx-auto p-4 mb-16">
+          {children}
+        </div>
       </body>
     </html>
   );
