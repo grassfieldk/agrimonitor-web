@@ -4,7 +4,6 @@ export type SensorData = {
   temperature: string;
   humidity: string;
 };
-
 export const initialSensorData: SensorData = {
   datetime: "-",
   unixtime: 0,
@@ -12,17 +11,7 @@ export const initialSensorData: SensorData = {
   humidity: "-",
 };
 
-export type TemperatureRange = {
-  low: number | null;
-  high: number | null;
-};
-
-export type VegetableTemperature = {
-  optimumRange: TemperatureRange;
-  limitRange: TemperatureRange;
-};
-
-export type Vegetable = {
+export type VegetableInfo = {
   id: number;
   name: string;
   temperature: {
@@ -30,9 +19,14 @@ export type Vegetable = {
     growth: VegetableTemperature;
   };
 };
-
-export type VegetableData = {
-  vegetables: Vegetable[];
+export type VegetableTemperature = {
+  optimumRange: TemperatureRange;
+  limitRange: TemperatureRange;
+};
+export type TemperatureRange = {
+  low: number | null;
+  high: number | null;
 };
 
+export type TemperatureCategory = "growth" | "germination";
 export type TemperatureStatus = "optimal" | "acceptable" | "warning" | "danger";
