@@ -14,6 +14,7 @@ export const initialSensorData: SensorData = {
 export type VegetableInfo = {
   id: number;
   name: string;
+  enabled: boolean;
   temperature: {
     germination: VegetableTemperature;
     growth: VegetableTemperature;

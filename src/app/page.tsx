@@ -37,9 +37,18 @@ export default function Home() {
       const sensorData: SensorData = await sensorRes.json();
       setSensorData(sensorData);
 
-      const vegeRes = await fetch("/api/data");
-      const vegeInfos: VegetableInfo[] = (await vegeRes.json()).vegetables;
-      setVegeInfos(vegeInfos);
+      const vegeRes = await fetch("/api/crud?table=vegetables");
+      const vegeInfos: VegetableInfo[] = await vegeRes.json();
+      console.log(
+        "All vegetables:",
+        vegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
+      );
+      const enabledVegeInfos = vegeInfos.filter((vege) => vege.enabled);
+      console.log(
+        "Enabled vegetables:",
+        enabledVegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
+      );
+      setVegeInfos(enabledVegeInfos);
     };
 
     fetchData();

@@ -3,6 +3,7 @@
     {
       "id": 1,
       "name": "キャベツ",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 30 },
@@ -17,6 +18,7 @@
     {
       "id": 2,
       "name": "きゅうり",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 25, "high": 30 },
@@ -31,6 +33,7 @@
     {
       "id": 3,
       "name": "さといも",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 25, "high": 35 },
@@ -45,6 +48,7 @@
     {
       "id": 4,
       "name": "だいこん",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 35 },
@@ -59,6 +63,7 @@
     {
       "id": 5,
       "name": "トマト",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 27 },
@@ -73,6 +78,7 @@
     {
       "id": 6,
       "name": "なす",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 20, "high": 25 },
@@ -87,6 +93,7 @@
     {
       "id": 7,
       "name": "にんじん",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 25 },
@@ -101,6 +108,7 @@
     {
       "id": 8,
       "name": "ねぎ",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 30 },
@@ -115,6 +123,7 @@
     {
       "id": 9,
       "name": "はくさい",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 20, "high": 20 },
@@ -129,6 +138,7 @@
     {
       "id": 10,
       "name": "ピーマン",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 30, "high": 35 },
@@ -143,6 +153,7 @@
     {
       "id": 11,
       "name": "レタス",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 20 },
@@ -157,6 +168,7 @@
     {
       "id": 12,
       "name": "たまねぎ",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 18, "high": 18 },
@@ -171,6 +183,7 @@
     {
       "id": 13,
       "name": "ジャガイモ",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 25 },
@@ -185,6 +198,7 @@
     {
       "id": 14,
       "name": "ほうれんそう",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 15, "high": 20 },
@@ -199,6 +213,7 @@
     {
       "id": 15,
       "name": "ブロッコリー",
+      "enabled": true,
       "temperature": {
         "germination": {
           "optimumRange": { "low": 25, "high": 25 },

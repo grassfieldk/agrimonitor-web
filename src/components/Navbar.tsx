@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-neutral-900/80 backdrop-blur-xs text-white py-3 px-6 shadow z-50">
-      <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto md:px-4 flex items-center justify-between">
         <div className="flex-1 flex items-center">
           {!isTopPage && (
             <Link
@@ -21,10 +21,7 @@ export default function Navbar() {
           )}
         </div>
         <div className="flex-1 flex items-center justify-center">
-          <Link
-            href="/"
-            className="text-lg font-bold hover:text-neutral-300"
-          >
+          <Link href="/" className="text-lg font-bold hover:text-neutral-300">
             Agrimonitor
           </Link>
         </div>
