@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans, Noto_Sans_Mono } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const notoSans = Noto_Sans({
@@ -25,10 +26,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${notoSans.variable} ${notoMono.variable} antialiased`}>
-        <nav className="w-full bg-neutral-900 text-white text-center py-3 px-6 shadow">
-          <div className="max-w-xl mx-auto text-lg font-bold">Agrimonitor</div>
-        </nav>
-        <div className="container max-w-screen-xl mx-auto p-4 mb-16">
+        <Navbar />
+        <div className="container max-w-screen-xl mx-auto p-4 mb-16 pt-20">
           {children}
         </div>
       </body>

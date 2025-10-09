@@ -19,6 +19,7 @@ export type VegetableInfo = {
     growth: VegetableTemperature;
   };
 };
+
 export type VegetableTemperature = {
   optimumRange: TemperatureRange;
   limitRange: TemperatureRange;
