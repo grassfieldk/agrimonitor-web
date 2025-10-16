@@ -172,12 +172,15 @@ const EnvironmentInfo = ({
 
   return (
     <div className="flex flex-col justify-center items-center p-4 space-y-2 bg-neutral-800 rounded-lg shadow">
-      <div className="flex flex-row flex-wrap justify-between items-center w-full max-w-64 mx-auto mb-2">
-        <div>
-          <span className="text-xs text-neutral-300">更新日時</span>
+      <div
+        className="flex flex-row flex-wrap justify-between items-center w-full max-w-72
+       mx-auto mb-2"
+      >
+        <p className="text-xs">
+          <span className=" text-neutral-300">更新日時</span>
           <br />
           {sendorData.datetime}
-        </div>
+        </p>
 
         <div>
           <span className="text-2xl font-bold" style={{ color: tempColor }}>
