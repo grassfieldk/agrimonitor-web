@@ -268,11 +268,7 @@ export const VegetableStatus = ({
       <div className="space-y-2 w-48">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {isGrowth ? (
-              <GiSeedling className="text-green-400 w-4 h-4" />
-            ) : (
-              <GiWheat className="text-green-500 w-4 h-4" />
-            )}
+            {isGrowth ? <GiSeedling size={16} /> : <GiWheat size={16} />}
             <span className="font-medium text-sm">
               {isGrowth ? "発芽期" : "生育期"}
             </span>

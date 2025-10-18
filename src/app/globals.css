@@ -54,7 +54,7 @@
 
 body {
   background: var(--color-background);
-  color: var(--color-text);
+  color: var(--color-dark);
   font-family: "RocknRoll One", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -102,4 +102,33 @@ select {
 [disabled],
 [aria-disabled="true"] {
   @apply cursor-not-allowed;
+}
+
+table {
+  @apply w-full rounded-lg overflow-hidden text-center;
+}
+
+thead {
+  @apply bg-primary-800 text-light;
+}
+
+tbody {
+  @apply bg-primary-200/50;
+}
+
+th,
+td {
+  @apply px-4 py-2 text-center border-b;
+}
+
+th {
+  @apply font-bold;
+}
+
+tr:nth-child(even) {
+  @apply bg-primary-300/40;
+}
+
+tr:last-child td {
+  @apply border-b-0;
 }

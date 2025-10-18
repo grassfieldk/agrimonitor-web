@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-foreground backdrop-blur-xs text-light py-2 px-4 shadow">
-      <div className="max-w-screen-xl mx-auto md:px-4 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between">
         <div className="flex items-center">
           {!isTopPage && (
             <Link

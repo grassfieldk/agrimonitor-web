@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type React from "react";
-import { MdChevronLeft, MdChevronRight, MdClose } from "react-icons/md";
+import { MdAdd, MdChevronLeft, MdChevronRight, MdClose } from "react-icons/md";
 import type { ButtonIcon, Size, Target, Variant } from "@/types/ui";
 
 interface ButtonProps {
   children: React.ReactNode;
+  title?: string;
   onClick?: () => void;
   href?: string;
   target?: Target;
@@ -17,6 +18,7 @@ interface ButtonProps {
 
 export const Button = ({
   children,
+  title = typeof children === "string" ? children : undefined,
   onClick,
   href,
   target = "_self",
@@ -26,13 +28,12 @@ export const Button = ({
   disabled = false,
   className: additionalClassName,
 }: ButtonProps) => {
-  const iconRight = icon === "next";
-
-  const baseClasses = "flex items-center justify-center rounded";
+  const baseClasses =
+    "inline-flex gap-1 text-center items-center justify-center rounded";
   const sizeClasses = {
-    sm: `px-3 py-1 text-sm ${icon && (iconRight ? "pr-1" : "pl-1")}`,
-    md: `px-4 py-2 ${icon && (iconRight ? "pr-2" : "pl-2")}`,
-    lg: `px-6 py-3 text-lg ${icon && (iconRight ? "pr-3" : "pl-3")}`,
+    sm: `px-3 py-1 text-sm`,
+    md: `px-4 py-2`,
+    lg: `px-6 py-3 text-lg`,
   };
   const variantClasses = {
     primary:
@@ -51,25 +52,25 @@ export const Button = ({
     sizeClasses[size],
     variantClasses[variant],
     disabledClasses,
-    additionalClassName,
+    `!${additionalClassName?.replace(/ /g, " !")}`,
   ]
     .filter(Boolean)
     .join(" ");
 
-  const iconElement = (
-    <span className="px-[0.4em]">
-      {icon === "prev" ? (
-        <MdChevronLeft />
-      ) : icon === "next" ? (
-        <MdChevronRight />
-      ) : icon === "close" ? (
-        <MdClose />
-      ) : null}
-    </span>
-  );
+  const iconRight = icon === "next";
+  const iconElement =
+    icon === "prev" ? (
+      <MdChevronLeft />
+    ) : icon === "next" ? (
+      <MdChevronRight />
+    ) : icon === "close" ? (
+      <MdClose />
+    ) : icon === "add" ? (
+      <MdAdd />
+    ) : null;
   const label = (
     <>
-      {icon && (iconRight || iconElement)}
+      {icon && !iconRight && iconElement}
       {children}
       {icon && iconRight && iconElement}
     </>
@@ -81,6 +82,7 @@ export const Button = ({
     </Link>
   ) : (
     <button
+      title={title}
       type="button"
       onClick={onClick}
       disabled={disabled}

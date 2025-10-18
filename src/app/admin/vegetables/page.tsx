@@ -1,8 +1,17 @@
 "use client";
 
-import { Dialog } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { useCallback, useEffect, useState } from "react";
-import { FiEdit2, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Input } from "@/components/ui/Input";
+import { NumberInput } from "@/components/ui/NumberInput";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import type { VegetableInfo } from "@/types/types";
 
@@ -190,67 +199,53 @@ export default function VegetablesAdminPage() {
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">適正温度設定</h1>
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="flex items-center gap-1 p-2 pr-3 bg-neutral-600 text-white rounded hover:bg-neutral-500"
-        >
-          <FiPlus size={16} />
+        <Button onClick={handleAdd} icon="add">
           追加
-        </button>
+        </Button>
       </div>
 
       {vegetables.length === 0 ? (
-        <div className="text-center py-12">
-          野菜データがありません
-        </div>
+        <div className="text-center py-12">野菜データがありません</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full bg-neutral-800 rounded-lg overflow-hidden">
-            <thead className="bg-neutral-700">
+          <table className="rounded-lg">
+            <thead>
               <tr>
-                <th className="px-4 py-3 text-center">操作</th>
-                <th className="px-4 py-3 text-left">野菜名</th>
-                <th className="px-4 py-3 text-center">表示</th>
-                <th className="hidden sm:table-cell lg:table-cell px-4 py-3 text-center">
-                  発芽適温
-                </th>
-                <th className="hidden lg:table-cell px-4 py-3 text-center">
-                  発芽限界
-                </th>
-                <th className="hidden sm:table-cell lg:table-cell px-4 py-3 text-center">
-                  生育適温
-                </th>
-                <th className="hidden lg:table-cell px-4 py-3 text-center">
-                  生育限界
-                </th>
+                <th>操作</th>
+                <th>野菜名</th>
+                <th>表示</th>
+                <th className="hidden sm:table-cell">発芽適温</th>
+                <th className="hidden lg:table-cell">発芽限界</th>
+                <th className="hidden sm:table-cell">生育適温</th>
+                <th className="hidden lg:table-cell">生育限界</th>
               </tr>
             </thead>
             <tbody>
               {vegetables.map((vegetable) => (
                 <tr key={vegetable.id} className="border-t border-neutral-700">
-                  <td className="px-4 py-3 text-center">
+                  <td>
                     <div className="flex justify-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => handleEdit(vegetable)}
-                        className="p-2 bg-neutral-600 text-white rounded hover:bg-neutral-500 transition-colors"
+                      <Button
                         title="編集"
+                        onClick={() => handleEdit(vegetable)}
+                        size="sm"
+                        className="p-2"
                       >
                         <FiEdit2 size={16} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(vegetable.id)}
-                        className="p-2 bg-neutral-700 text-white rounded hover:bg-neutral-600 transition-colors"
+                      </Button>
+                      <Button
                         title="削除"
+                        onClick={() => handleDelete(vegetable.id)}
+                        variant="secondary"
+                        size="sm"
+                        className="p-2"
                       >
                         <FiTrash2 size={16} />
-                      </button>
+                      </Button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-medium">{vegetable.name}</td>
-                  <td className="px-4 py-3 text-center">
+                  <td>{vegetable.name}</td>
+                  <td>
                     <ToggleButton
                       isOn={vegetable.enabled}
                       onToggle={() =>
@@ -261,23 +256,23 @@ export default function VegetablesAdminPage() {
                       {vegetable.enabled ? "有効" : "無効"}
                     </ToggleButton>
                   </td>
-                  <td className="hidden sm:table-cell lg:table-cell px-4 py-3 text-center text-sm">
+                  <td className="hidden sm:table-cell">
                     {vegetable.temperature.germination.optimumRange.low ?? "－"}
                     ℃ ～{" "}
                     {vegetable.temperature.germination.optimumRange.high ??
                       "－"}
                     ℃
                   </td>
-                  <td className="hidden lg:table-cell px-4 py-3 text-center text-sm">
+                  <td className="hidden lg:table-cell">
                     {vegetable.temperature.germination.limitRange.low ?? "－"}℃
                     ～{" "}
                     {vegetable.temperature.germination.limitRange.high ?? "－"}℃
                   </td>
-                  <td className="hidden sm:table-cell lg:table-cell px-4 py-3 text-center text-sm">
+                  <td className="hidden sm:table-cell">
                     {vegetable.temperature.growth.optimumRange.low ?? "－"}℃ ～{" "}
                     {vegetable.temperature.growth.optimumRange.high ?? "－"}℃
                   </td>
-                  <td className="hidden lg:table-cell px-4 py-3 text-center text-sm">
+                  <td className="hidden lg:table-cell">
                     {vegetable.temperature.growth.limitRange.low ?? "－"}℃ ～{" "}
                     {vegetable.temperature.growth.limitRange.high ?? "－"}℃
                   </td>
@@ -293,14 +288,13 @@ export default function VegetablesAdminPage() {
         onClose={() => setIsModalOpen(false)}
         className="relative z-50"
       >
-        <div className="fixed inset-0 bg-black bg-opacity-50" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-neutral-800 rounded-lg p-4 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <Dialog.Title className="text-lg font-bold mb-4">
+        <DialogBackdrop className="fixed inset-0 bg-foreground/60" />
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <DialogPanel className="w-full max-w-3xl space-y-4 bg-background rounded-lg p-4 shadow-2xl">
+            <DialogTitle className="text-center text-xl font-bold">
               {editingVegetable?.id ? "編集" : "追加"}
-            </Dialog.Title>
-
-            <div className="space-y-4">
+            </DialogTitle>
+            <div className="space-y-4 max-h-[calc(100vh-30px)] overflow-y-auto">
               <div>
                 <label
                   htmlFor="vegetable-name"
@@ -308,9 +302,8 @@ export default function VegetablesAdminPage() {
                 >
                   野菜名 *
                 </label>
-                <input
+                <Input
                   id="vegetable-name"
-                  type="text"
                   value={editingVegetable?.name || ""}
                   onChange={(e) =>
                     editingVegetable &&
@@ -319,15 +312,14 @@ export default function VegetablesAdminPage() {
                       name: e.target.value,
                     })
                   }
-                  className="w-full p-2 bg-neutral-700 border border-neutral-500 rounded text-white"
                   placeholder="例: トマト"
                   required
                 />
               </div>
               <div>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
+                <label htmlFor="enabled" className="flex items-center gap-2">
+                  <Checkbox
+                    id="enabled"
                     checked={editingVegetable?.enabled || false}
                     onChange={(e) =>
                       editingVegetable &&
@@ -336,15 +328,12 @@ export default function VegetablesAdminPage() {
                         enabled: e.target.checked,
                       })
                     }
-                    className="w-4 h-4 text-green-600 bg-neutral-700 border-neutral-500 rounded focus:ring-green-500"
                   />
                   <span className="text-sm">トップページに表示</span>
                 </label>
               </div>
               <div>
-                <h3 className="text-base font-medium mb-2 text-green-400">
-                  発芽期
-                </h3>
+                <h3 className="text-base font-medium mb-2">発芽期</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
@@ -354,12 +343,11 @@ export default function VegetablesAdminPage() {
                       適正温度
                     </label>
                     <div className="flex items-center gap-1">
-                      <input
+                      <NumberInput
                         id="germ-opt-low"
-                        type="number"
                         value={
                           editingVegetable?.temperature.germination.optimumRange
-                            .low ?? ""
+                            .low ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -370,16 +358,14 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最低"
                       />
                       <span className="text-xs">～</span>
-                      <input
+                      <NumberInput
                         id="germ-opt-high"
-                        type="number"
                         value={
                           editingVegetable?.temperature.germination.optimumRange
-                            .high ?? ""
+                            .high ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -390,7 +376,6 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最高"
                       />
                       <span className="text-xs">℃</span>
@@ -404,12 +389,11 @@ export default function VegetablesAdminPage() {
                       限界温度
                     </label>
                     <div className="flex items-center gap-1">
-                      <input
+                      <NumberInput
                         id="germ-limit-low"
-                        type="number"
                         value={
                           editingVegetable?.temperature.germination.limitRange
-                            .low ?? ""
+                            .low ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -420,16 +404,14 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最低"
                       />
                       <span className="text-xs">～</span>
-                      <input
+                      <NumberInput
                         id="germ-limit-high"
-                        type="number"
                         value={
                           editingVegetable?.temperature.germination.limitRange
-                            .high ?? ""
+                            .high ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -440,7 +422,6 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最高"
                       />
                       <span className="text-xs">℃</span>
@@ -449,9 +430,7 @@ export default function VegetablesAdminPage() {
                 </div>
               </div>
               <div>
-                <h3 className="text-base font-medium mb-2 text-blue-400">
-                  生育期
-                </h3>
+                <h3 className="text-base font-medium mb-2">生育期</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
@@ -461,12 +440,11 @@ export default function VegetablesAdminPage() {
                       適正温度
                     </label>
                     <div className="flex items-center gap-1">
-                      <input
+                      <NumberInput
                         id="growth-opt-low"
-                        type="number"
                         value={
                           editingVegetable?.temperature.growth.optimumRange
-                            .low ?? ""
+                            .low ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -477,16 +455,14 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最低"
                       />
                       <span className="text-xs">～</span>
-                      <input
+                      <NumberInput
                         id="growth-opt-high"
-                        type="number"
                         value={
                           editingVegetable?.temperature.growth.optimumRange
-                            .high ?? ""
+                            .high ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -497,7 +473,6 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最高"
                       />
                       <span className="text-xs">℃</span>
@@ -511,12 +486,11 @@ export default function VegetablesAdminPage() {
                       限界温度
                     </label>
                     <div className="flex items-center gap-1">
-                      <input
+                      <NumberInput
                         id="growth-limit-low"
-                        type="number"
                         value={
                           editingVegetable?.temperature.growth.limitRange.low ??
-                          ""
+                          null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -527,16 +501,14 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最低"
                       />
                       <span className="text-xs">～</span>
-                      <input
+                      <NumberInput
                         id="growth-limit-high"
-                        type="number"
                         value={
                           editingVegetable?.temperature.growth.limitRange
-                            .high ?? ""
+                            .high ?? null
                         }
                         onChange={(e) =>
                           editingVegetable &&
@@ -547,7 +519,6 @@ export default function VegetablesAdminPage() {
                             e.target.value,
                           )
                         }
-                        className="w-12 p-1 bg-neutral-700 border border-neutral-500 rounded text-white text-center text-sm"
                         placeholder="最高"
                       />
                       <span className="text-xs">℃</span>
@@ -556,28 +527,24 @@ export default function VegetablesAdminPage() {
                 </div>
               </div>
             </div>
-
-            <div className="flex justify-end gap-3 mt-6">
-              <button
-                type="button"
+            <div className="flex justify-end gap-3">
+              <Button
                 onClick={() => {
                   setIsModalOpen(false);
                   setEditingVegetable(null);
                 }}
-                className="px-4 py-2 bg-neutral-700 text-white rounded hover:bg-neutral-600 text-sm"
+                variant="secondary"
               >
                 キャンセル
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
                 onClick={handleSave}
-                className="px-4 py-2 bg-neutral-600 text-white rounded hover:bg-neutral-500 text-sm"
                 disabled={!editingVegetable?.name.trim()}
               >
                 保存
-              </button>
+              </Button>
             </div>
-          </Dialog.Panel>
+          </DialogPanel>
         </div>
       </Dialog>
     </div>
