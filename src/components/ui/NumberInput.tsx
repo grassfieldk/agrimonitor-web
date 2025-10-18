@@ -1,4 +1,5 @@
 import type React from "react";
+import { cn } from "@/utils/util";
 
 interface NumberInputProps {
   id?: string;
@@ -32,9 +33,7 @@ export function NumberInput({
 }: NumberInputProps) {
   const baseClasses =
     "w-full p-2 bg-primary-50 border-1 border-primary-200 rounded text-center text-dark";
-  const className = [baseClasses, additionalClassName]
-    .filter(Boolean)
-    .join(" ");
+  const className = cn(baseClasses, additionalClassName);
 
   return (
     <input

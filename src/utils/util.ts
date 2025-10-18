@@ -1,8 +1,14 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import type {
   TemperatureCategory,
   TemperatureStatus,
   VegetableInfo,
 } from "@/types/types";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function checkTemperatureStatus(
   currentTemp: number,

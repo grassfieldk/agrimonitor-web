@@ -173,9 +173,13 @@ const EnvironmentInfo = ({
   const humColor = `rgb(${hr},${hg},${hb})`;
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow text-xs">
-      <div className="flex flex-row justify-between items-center w-full max-w-72 mx-auto">
-        <p className="text-xs">{sendorData.datetime}</p>
+    <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow">
+      <div className="flex flex-row justify-between items-center w-full max-w-80 mx-auto">
+        <p>
+          <span className="text-sm text-dark-sub">センターデータ取得時刻</span>
+          <br />
+          {sendorData.datetime}
+        </p>
         <div>
           <span className="text-2xl font-bold" style={{ color: tempColor }}>
             {temperature}
@@ -189,7 +193,7 @@ const EnvironmentInfo = ({
         </div>
       </div>
       <div className="w-full space-y-3">
-        <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
+        <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1">
           {vegeInfos.map((vegetable) => {
             const growStatus = checkTemperatureStatus(
               currentTemperature,
@@ -217,7 +221,9 @@ const EnvironmentInfo = ({
                     <StatusIcon status={growStatus} stage="growth" />
                   )}
                 </div>
-                <span className="w-full truncate">{vegetable.name}</span>
+                <span className="w-full text-xs text-nowrap text-clip overflow-hidden">
+                  {vegetable.name}
+                </span>
               </button>
             );
           })}

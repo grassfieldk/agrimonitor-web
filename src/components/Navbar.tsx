@@ -9,33 +9,27 @@ export default function Navbar() {
   const title = process.env.NEXT_PUBLIC_TITLE || "Agrimonitor";
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-foreground backdrop-blur-xs text-light py-2 px-4 shadow">
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-        <div className="flex items-center">
+    <nav className="fixed top-0 left-0 w-full bg-foreground backdrop-blur-xs text-light shadow">
+      <div className="max-w-screen-xl mx-auto flex items-center px-4 py-2">
+        <div className="w-16">
           {!isTopPage && (
-            <Link
+            <Button
               href="/"
-              className="text-sm hover:text-white transition-colors"
+              variant="text"
+              icon="prev"
+              className="text-light hover:text-light-sub"
             >
               戻る
-            </Link>
+            </Button>
           )}
         </div>
-        <div className="flex-1 flex items-center justify-center">
-          <Link
-            href="/"
-            className="absolute left-1/2 transform -translate-x-1/2 text-lg font-bold"
-          >
-            {title}
-          </Link>
+        <div className="flex-1">
+          <h1 className="flex items-center justify-center">
+            <Link href="/">{title}</Link>
+          </h1>
         </div>
-        <div className="flex items-center">
-          <Button
-            href="/admin/vegetables"
-            className="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded text-sm font-medium transition-colors"
-          >
-            設定
-          </Button>
+        <div className="w-16">
+          <Button href="/admin/vegetables">設定</Button>
         </div>
       </div>
     </nav>

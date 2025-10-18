@@ -28,9 +28,9 @@
   --color-foreground-nd: var(--color-primary-800);
   --color-foreground-th: var(--color-primary-700);
 
-  --color-background: var(--color-primary-100);
-  --color-background-nd: var(--color-primary-200);
-  --color-background-th: var(--color-primary-300);
+  --color-background: var(--color-primary-50);
+  --color-background-nd: var(--color-primary-100);
+  --color-background-th: var(--color-primary-200);
 
   --color-primary: var(--color-primary-800);
   --color-primary-hover: var(--color-primary-700);
@@ -45,7 +45,7 @@
   --color-accent-border: var(--color-accent-300);
 
   --color-dark: var(--color-primary-900);
-  --color-dark-sub: var(--color-primary-800);
+  --color-dark-sub: var(--color-primary-700);
   --color-light: var(--color-primary-50);
   --color-light-sub: var(--color-primary-100);
 
@@ -68,6 +68,18 @@ body {
 
 *::-webkit-scrollbar {
   display: none;
+}
+
+h1 {
+  @apply text-xl font-bold;
+}
+
+h2 {
+  @apply text-lg font-bold mb-2;
+}
+
+h3 {
+  @apply font-semibold mb-1;
 }
 
 button {

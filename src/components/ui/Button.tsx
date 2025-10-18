@@ -2,6 +2,7 @@ import Link from "next/link";
 import type React from "react";
 import { MdAdd, MdChevronLeft, MdChevronRight, MdClose } from "react-icons/md";
 import type { ButtonIcon, Size, Target, Variant } from "@/types/ui";
+import { cn } from "@/utils/util";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -44,18 +45,15 @@ export const Button = ({
       "bg-accent hover:bg-accent-hover outline-1 outline-accent-border text-light",
     ghost:
       "bg-transparent hover:bg-primary-hover:20 outline-1 outline-primary-border text-dark",
-    text: "bg-transparent text-dark hover:text-dark/80",
+    text: "px-1 bg-transparent text-dark hover:text-dark/80",
   };
-  const disabledClasses = disabled && "opacity-50";
-  const className = [
+  const className = cn(
     baseClasses,
     sizeClasses[size],
     variantClasses[variant],
-    disabledClasses,
-    `!${additionalClassName?.replace(/ /g, " !")}`,
-  ]
-    .filter(Boolean)
-    .join(" ");
+    disabled && "opacity-50",
+    additionalClassName,
+  );
 
   const iconRight = icon === "next";
   const iconElement =
