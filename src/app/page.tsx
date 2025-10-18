@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { GiSeedling, GiWheat } from "react-icons/gi";
 import { RecentPhoto } from "@/components/status/RecentPhoto";
 import { StatusIcon } from "@/components/status/StatusIcon";
+import { Button } from "@/components/ui/Button";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import {
   initialSensorData,
@@ -80,9 +81,9 @@ export default function Home() {
 
       {selectedVege && (
         <div
-          className={`fixed ${FOOTER_HEIGHT} left-0 right-0 bg-neutral-800 p-4`}
+          className={`fixed ${FOOTER_HEIGHT} left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light`}
         >
-          <div className="container max-w-screen-xl mx-auto">
+          <div className="container max-w-screen-xl mx-auto space-y-4">
             <VegetableStatus
               vegetable={selectedVege}
               growthStatus={checkTemperatureStatus(
@@ -96,18 +97,19 @@ export default function Home() {
                 "germination",
               )}
             />
-            <button
-              type="button"
+            <Button
               onClick={() => setSelectedVege(null)}
-              className="mt-2 w-full px-4 py-2 text-sm bg-neutral-700 text-neutral-300 rounded-lg hover:bg-neutral-600"
+              variant="secondary"
+              icon="close"
+              className="w-full"
             >
               閉じる
-            </button>
+            </Button>
           </div>
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-neutral-900 border-t border-neutral-700 p-4 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 bg-foreground border-t border-foreground-nd p-4 shadow-lg">
         <div className="flex justify-center gap-4">
           <ToggleButton
             isOn={showGermination}
@@ -171,31 +173,19 @@ const EnvironmentInfo = ({
   const humColor = `rgb(${hr},${hg},${hb})`;
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 space-y-2 bg-neutral-800 rounded-lg shadow">
-      <div
-        className="flex flex-row flex-wrap justify-between items-center w-full max-w-72
-       mx-auto mb-2"
-      >
-        <p className="text-xs">
-          <span className=" text-neutral-300">更新日時</span>
-          <br />
-          {sendorData.datetime}
-        </p>
-
+    <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow text-xs">
+      <div className="flex flex-row justify-between items-center w-full max-w-72 mx-auto">
+        <p className="text-xs">{sendorData.datetime}</p>
         <div>
           <span className="text-2xl font-bold" style={{ color: tempColor }}>
             {temperature}
           </span>
-          <span className="inline-block w-6 text-center text-neutral-300">
-            ℃
-          </span>
+          <span className="inline-block w-6 text-right text-xl">℃</span>
           <br />
           <span className="text-2xl font-bold" style={{ color: humColor }}>
             {humidity}
           </span>
-          <span className="inline-block w-6 text-center text-neutral-300">
-            %
-          </span>
+          <span className="inline-block w-6 text-right text-xl">%</span>
         </div>
       </div>
       <div className="w-full space-y-3">
@@ -216,7 +206,7 @@ const EnvironmentInfo = ({
               <button
                 key={vegetable.id}
                 type="button"
-                className="flex flex-col items-center py-2 px-1 text-center bg-neutral-600 rounded cursor-pointer hover:bg-neutral-500 w-full"
+                className="flex flex-col items-center py-2 px-1 bg-primary hover:bg-primary-hover w-full rounded shadow text-light"
                 onClick={() => onVegetableSelect(vegetable)}
               >
                 <div className="flex gap-1 mb-1">
@@ -227,14 +217,12 @@ const EnvironmentInfo = ({
                     <StatusIcon status={growStatus} stage="growth" />
                   )}
                 </div>
-                <span className="w-full text-xs text-neutral-200 truncate">
-                  {vegetable.name}
-                </span>
+                <span className="w-full truncate">{vegetable.name}</span>
               </button>
             );
           })}
         </div>
-        <div className="flex items-center justify-center gap-4 text-xs text-neutral-300">
+        <div className="flex items-center justify-center gap-4 py-1 bg-primary rounded-full text-light">
           {statusList.map((status) => (
             <div key={status} className="flex items-center gap-1">
               <StatusIcon status={status} stage="growth" />
@@ -245,6 +233,7 @@ const EnvironmentInfo = ({
       </div>
       <div className="w-full">
         <RecentPhoto />
+        <p className="mt-2 text-center text-xs text-dark-sub">{`※ 画像は ${fetchInterval / 1000} 秒間隔で更新されます`}</p>
       </div>
     </div>
   );
@@ -315,8 +304,8 @@ export const VegetableStatus = ({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="font-bold text-center text-base">{vegetable.name}</div>
+    <div className="space-y-4 text-center">
+      <div className="font-bold text-lg">{vegetable.name}</div>
       <div className="flex justify-center space-x-8">
         <Status category="growth" />
         <Status category="germination" />

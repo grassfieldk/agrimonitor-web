@@ -14,10 +14,12 @@ export default function VegetablesAdminPage() {
     useState<VegetableInfo | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const apiBaseUrl = "/api/crud?table=vegetables";
+
   const fetchVegetables = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/crud?table=vegetables");
+      const response = await fetch(apiBaseUrl);
       if (!response.ok) {
         throw new Error("Failed to fetch vegetables data");
       }
@@ -43,7 +45,7 @@ export default function VegetablesAdminPage() {
     if (!confirm("本当に削除しますか？")) return;
 
     try {
-      const response = await fetch(`/api/crud?table=vegetables&id=${id}`, {
+      const response = await fetch(`${apiBaseUrl}&id=${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -61,8 +63,8 @@ export default function VegetablesAdminPage() {
     try {
       const isNew = !editingVegetable.id;
       const url = isNew
-        ? "/api/crud?table=vegetables"
-        : `/api/crud?table=vegetables&id=${editingVegetable.id}`;
+        ? apiBaseUrl
+        : `${apiBaseUrl}&id=${editingVegetable.id}`;
 
       const response = await fetch(url, {
         method: isNew ? "POST" : "PUT",
@@ -140,16 +142,13 @@ export default function VegetablesAdminPage() {
         enabled: newEnabled,
       };
 
-      const response = await fetch(
-        `/api/crud?table=vegetables&id=${vegetableId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedVegetable),
+      const response = await fetch(`${apiBaseUrl}&id=${vegetableId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(updatedVegetable),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update vegetable");
@@ -202,7 +201,7 @@ export default function VegetablesAdminPage() {
       </div>
 
       {vegetables.length === 0 ? (
-        <div className="text-center py-12 text-neutral-400">
+        <div className="text-center py-12">
           野菜データがありません
         </div>
       ) : (

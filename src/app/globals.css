@@ -1,31 +1,105 @@
 @import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-}
+@theme {
+  --color-primary-50: #f0ebe7;
+  --color-primary-100: #d8cfc4;
+  --color-primary-200: #c0b39f;
+  --color-primary-300: #a8967a;
+  --color-primary-400: #917a57;
+  --color-primary-500: #7a6040;
+  --color-primary-600: #624c33;
+  --color-primary-700: #4b3928;
+  --color-primary-800: #372d22;
+  --color-primary-900: #1f180f;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent-50: #fdeafb;
+  --color-accent-100: #f8c2da;
+  --color-accent-200: #f090b4;
+  --color-accent-300: #e45a8e;
+  --color-accent-400: #cf3571;
+  --color-accent-500: #b81f56;
+  --color-accent-600: #8e163e;
+  --color-accent-700: #610f2b;
+  --color-accent-800: #3c091b;
+  --color-accent-900: #1a030c;
+
+  --color-foreground: var(--color-primary-900);
+  --color-foreground-nd: var(--color-primary-800);
+  --color-foreground-th: var(--color-primary-700);
+
+  --color-background: var(--color-primary-100);
+  --color-background-nd: var(--color-primary-200);
+  --color-background-th: var(--color-primary-300);
+
+  --color-primary: var(--color-primary-800);
+  --color-primary-hover: var(--color-primary-700);
+  --color-primary-border: var(--color-primary-700);
+
+  --color-secondary: var(--color-primary-200);
+  --color-secondary-hover: var(--color-primary-300);
+  --color-secondary-border: var(--color-primary-300);
+
+  --color-accent: var(--color-accent-500);
+  --color-accent-hover: var(--color-accent-400);
+  --color-accent-border: var(--color-accent-300);
+
+  --color-dark: var(--color-primary-900);
+  --color-dark-sub: var(--color-primary-800);
+  --color-light: var(--color-primary-50);
+  --color-light-sub: var(--color-primary-100);
+
+  --color-disabled: #737373;
 }
 
 body {
-  background: var(--background);
-  color: var(--color-text-dark);
+  background: var(--color-background);
+  color: var(--color-text);
   font-family: "RocknRoll One", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-html {
+* {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  line-height: 1.25;
 }
 
-html::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
+}
+
+button {
+  @apply cursor-pointer text-center;
+}
+
+a {
+  @apply cursor-pointer text-center;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  @apply cursor-text;
+}
+
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  @apply cursor-pointer;
+}
+
+select {
+  @apply cursor-pointer;
+}
+
+[role="button"] {
+  @apply cursor-pointer;
+}
+
+[disabled],
+[aria-disabled="true"] {
+  @apply cursor-not-allowed;
 }

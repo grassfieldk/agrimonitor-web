@@ -19,20 +19,17 @@ export const RecentPhoto = () => {
   }, [backendUrl, fetchInterval]);
 
   return (
-    <>
-      <div className="relative w-full aspect-video">
-        {photoUrl && (
-          <Image
-            src={photoUrl}
-            alt="Latest photo"
-            fill
-            sizes="(max-width: 640px) 100vw, 640px"
-            className="object-cover bg-black border border-neutral-700 rounded-lg"
-            priority
-          />
-        )}
-      </div>
-      <p className="mt-2 text-xs text-center text-neutral-400">{`※ 画像は ${fetchInterval / 1000} 秒間隔で更新されます`}</p>
-    </>
+    <div className="relative w-full aspect-video">
+      {photoUrl && (
+        <Image
+          src={photoUrl}
+          alt="Latest photo"
+          fill
+          sizes="(max-width: 640px) 100vw, 640px"
+          className="object-cover bg-black border border-neutral-700 rounded-lg"
+          priority
+        />
+      )}
+    </div>
   );
 };
