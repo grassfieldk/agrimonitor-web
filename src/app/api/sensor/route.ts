@@ -15,9 +15,10 @@ export async function GET() {
     const response = await axios.get(`${backendUrl}/sensor`);
     return NextResponse.json(response.data);
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return NextResponse.json({ error: error.message }, { status: 502 });
-    }
-    return NextResponse.json({ error: "Unknown error" }, { status: 502 });
+    console.error("Failed to fetch sensor data:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch sensor data" },
+      { status: 502 },
+    );
   }
 }
