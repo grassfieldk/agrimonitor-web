@@ -41,16 +41,13 @@ export async function GET() {
     }
 
     const obj = filteredData[0];
+    const locationName = obj["地点"]?.replace(/（[^）]*）/, "");
     const transformed = {
       locationNumber: obj["観測所番号"],
       dateTime: `${obj["現在時刻(年)"]}${obj["現在時刻(月)"].padStart(2, "0")}${obj["現在時刻(日)"].padStart(2, "0")}${obj["現在時刻(時)"].padStart(2, "0")}`,
       prefecture: obj["都道府県"],
-      location: obj["地点"],
+      location: locationName,
       precipitation: parseFloat(obj["現在値(mm)"]) || 0,
-      maxPrecipitationToday: parseFloat(obj["23日の最大値(mm)"]) || 0,
-      recordPrecipitation:
-        parseFloat(obj["22日までの観測史上1位の値(mm)"]) || 0,
-      octoberRecord: parseFloat(obj["22日までの10月の1位の値(mm)"]) || 0,
     };
 
     return NextResponse.json(transformed);

@@ -13,6 +13,7 @@ import {
   type TemperatureCategory,
   type TemperatureStatus,
   type VegetableInfo,
+  type WeatherData,
 } from "@/types/types";
 import {
   checkTemperatureStatus,
@@ -24,6 +25,7 @@ const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
 
 export default function Home() {
   const [sensorData, setSensorData] = useState<SensorData>(initialSensorData);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [vegeInfos, setVegeInfos] = useState<VegetableInfo[]>([]);
   const [showGermination, setShowGermination] = useState<boolean>(false);
   const [showGrowth, setShowGrowth] = useState<boolean>(true);
@@ -49,6 +51,10 @@ export default function Home() {
       const sensorRes = await fetch("/api/sensor");
       const sensorData: SensorData = await sensorRes.json();
       setSensorData(sensorData);
+
+      const weatherRes = await fetch("/api/weather");
+      const weatherData: WeatherData = await weatherRes.json();
+      setWeatherData(weatherData);
 
       const vegeRes = await fetch("/api/crud?table=vegetables");
       const vegeInfos: VegetableInfo[] = await vegeRes.json();
@@ -84,7 +90,10 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow">
-        <SensorDataDisplay sensorData={sensorData} />
+        <div className="flex flex-row justify-around space-x-2 w-full max-w-sm">
+          <SensorDataDisplay sensorData={sensorData} />
+          <WeatherDataDisplay weatherData={weatherData} />
+        </div>
         <VegetableStatusList
           vegeInfos={vegeInfos}
           currentTemperature={Number(sensorData.temperature) || 0}
@@ -138,23 +147,64 @@ const SensorDataDisplay = ({ sensorData }: { sensorData: SensorData }) => {
   const humColor = `rgb(${hr},${hg},${hb})`;
 
   return (
-    <div className="flex flex-row justify-between items-center w-full max-w-80 mx-auto">
-      <p>
-        <span className="text-sm text-dark-sub">センターデータ取得時刻</span>
-        <br />
-        {sensorData.datetime}
-      </p>
-      <div>
+    <div className="w-full space-y-2 text-center">
+      <p>気温/湿度</p>
+      <p className="text-shadow-sm">
         <span className="text-2xl font-bold" style={{ color: tempColor }}>
           {temperature}
         </span>
-        <span className="inline-block w-6 text-right text-xl">℃</span>
+        <span className="inline-block w-6 text-center text-xl">℃</span>
         <br />
         <span className="text-2xl font-bold" style={{ color: humColor }}>
           {humidity}
         </span>
-        <span className="inline-block w-6 text-right text-xl">%</span>
-      </div>
+        <span className="inline-block w-6 text-center text-xl">%</span>
+      </p>
+    </div>
+  );
+};
+
+const WeatherDataDisplay = ({
+  weatherData,
+}: {
+  weatherData: WeatherData | null;
+}) => {
+  if (!weatherData) return null;
+
+  const prefecture = weatherData.prefecture;
+  const location = weatherData.location;
+  const precipitation = weatherData.precipitation;
+  let color = "#fff";
+  if (precipitation >= 80) {
+    color = "#c4007d";
+  } else if (precipitation >= 50) {
+    color = "#e60000";
+  } else if (precipitation >= 30) {
+    color = "#ff9800";
+  } else if (precipitation >= 20) {
+    color = "#0094ff";
+  } else if (precipitation >= 10) {
+    color = "#38bdf8";
+  } else if (precipitation >= 5) {
+    color = "#7ad3f9";
+  } else if (precipitation >= 1) {
+    color = "#eaf4fc";
+  }
+
+  return (
+    <div className="w-full space-y-2 text-center">
+      <p>1時間降水量</p>
+      <p className="text-shadow-sm">
+        <span className="text-2xl font-bold" style={{ color: color }}>
+          {precipitation}
+        </span>
+        <span className="inline-block w-10 text-center text-xl">mm</span>
+      </p>
+      <p>
+        <span className="text-sm text-dark-sub">
+          {prefecture} {location}
+        </span>
+      </p>
     </div>
   );
 };
@@ -266,7 +316,7 @@ const SelectedVegetablePanel = ({
       isGrowth ? germinationStatus : growthStatus,
     );
     return (
-      <div className="space-y-2 w-48">
+      <div className="space-y-2 w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {isGrowth ? <GiSeedling size={16} /> : <GiWheat size={16} />}
@@ -278,7 +328,7 @@ const SelectedVegetablePanel = ({
             {getStatusText(germinationStatus)}
           </span>
         </div>
-        <div className="text-xs text-gray-300 space-y-0.5">
+        <div className="text-xs space-y-1">
           <div className="flex justify-between">
             <span>最適:</span>
             <span>
@@ -303,13 +353,13 @@ const SelectedVegetablePanel = ({
   return (
     <div
       className={`fixed bottom-16 left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light transform transition-transform duration-100 ${
-        isOpen ? 'translate-y-0' : 'translate-y-full'
+        isOpen ? "translate-y-0" : "translate-y-full"
       }`}
     >
       <div className="container max-w-screen-xl mx-auto px-4 space-y-4">
         <div className="space-y-4 text-center">
           <div className="font-bold text-lg">{selectedVege.name}</div>
-          <div className="flex justify-center space-x-8">
+          <div className="flex justify-center space-x-8 max-w-sm mx-auto">
             <Status category="growth" />
             <Status category="germination" />
           </div>

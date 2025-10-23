@@ -11,6 +11,17 @@ export const initialSensorData: SensorData = {
   humidity: "-",
 };
 
+export type WeatherData = {
+  locationNumber: string;
+  dateTime: string;
+  prefecture: string;
+  location: string;
+  precipitation: number;
+  maxPrecipitationToday: number;
+  recordPrecipitation: number;
+  octoberRecord: number;
+};
+
 export type VegetableInfo = {
   id: number;
   name: string;
