@@ -5,6 +5,7 @@ import { GiSeedling, GiWheat } from "react-icons/gi";
 import { RecentPhoto } from "@/components/status/RecentPhoto";
 import { StatusIcon } from "@/components/status/StatusIcon";
 import { Button } from "@/components/ui/Button";
+import { Footer } from "@/components/ui/Footer";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import {
   initialSensorData,
@@ -21,14 +22,25 @@ import {
 
 const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
 
-const FOOTER_HEIGHT = "bottom-16";
-
 export default function Home() {
   const [sensorData, setSensorData] = useState<SensorData>(initialSensorData);
   const [vegeInfos, setVegeInfos] = useState<VegetableInfo[]>([]);
   const [showGermination, setShowGermination] = useState<boolean>(false);
   const [showGrowth, setShowGrowth] = useState<boolean>(true);
   const [selectedVege, setSelectedVege] = useState<VegetableInfo | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
+
+  const handleVegetableSelect = (vegetable: VegetableInfo) => {
+    if (selectedVege && selectedVege.id === vegetable.id) {
+      setIsPanelOpen(!isPanelOpen);
+    } else {
+      setSelectedVege(vegetable);
+      setIsPanelOpen(true);
+    }
+  };
+
+  const onToggleGermination = () => setShowGermination(!showGermination);
+  const onToggleGrowth = () => setShowGrowth(!showGrowth);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -60,14 +72,14 @@ export default function Home() {
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && selectedVege) {
-        setSelectedVege(null);
+      if (event.key === "Escape" && isPanelOpen) {
+        setIsPanelOpen(false);
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [selectedVege]);
+  }, [isPanelOpen]);
 
   return (
     <>
@@ -78,7 +90,7 @@ export default function Home() {
           currentTemperature={Number(sensorData.temperature) || 0}
           showGermination={showGermination}
           showGrowth={showGrowth}
-          onVegetableSelect={setSelectedVege}
+          onVegetableSelect={handleVegetableSelect}
         />
         <div className="w-full">
           <RecentPhoto />
@@ -89,15 +101,18 @@ export default function Home() {
       <SelectedVegetablePanel
         selectedVege={selectedVege}
         sensorData={sensorData}
-        onClose={() => setSelectedVege(null)}
+        isOpen={isPanelOpen}
+        onClose={() => setIsPanelOpen(false)}
       />
 
-      <Footer
-        showGermination={showGermination}
-        showGrowth={showGrowth}
-        onToggleGermination={() => setShowGermination(!showGermination)}
-        onToggleGrowth={() => setShowGrowth(!showGrowth)}
-      />
+      <Footer>
+        <ToggleButton isOn={showGermination} onToggle={onToggleGermination}>
+          発芽適温表示
+        </ToggleButton>
+        <ToggleButton isOn={showGrowth} onToggle={onToggleGrowth}>
+          生育適温表示
+        </ToggleButton>
+      </Footer>
     </>
   );
 }
@@ -183,7 +198,7 @@ const VegetableStatusList = ({
             <button
               key={vegetable.id}
               type="button"
-              className="flex flex-col items-center py-2 px-1 bg-primary hover:bg-primary-hover w-full rounded shadow text-light"
+              className="flex flex-col items-center w-full py-2 px-1 bg-primary rounded shadow text-light hover:bg-primary-hover"
               onClick={() => onVegetableSelect(vegetable)}
             >
               <div className="flex gap-1 mb-1">
@@ -205,7 +220,7 @@ const VegetableStatusList = ({
         {statusList.map((status) => (
           <div key={status} className="flex items-center gap-1">
             <StatusIcon status={status} stage="growth" />
-            <span>{getStatusText(status)}</span>
+            <span className="text-sm">{getStatusText(status)}</span>
           </div>
         ))}
       </div>
@@ -216,10 +231,12 @@ const VegetableStatusList = ({
 const SelectedVegetablePanel = ({
   selectedVege,
   sensorData,
+  isOpen,
   onClose,
 }: {
   selectedVege: VegetableInfo | null;
   sensorData: SensorData;
+  isOpen: boolean;
   onClose: () => void;
 }) => {
   if (!selectedVege) return null;
@@ -285,9 +302,11 @@ const SelectedVegetablePanel = ({
 
   return (
     <div
-      className={`fixed ${FOOTER_HEIGHT} left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light`}
+      className={`fixed bottom-16 left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light transform transition-transform duration-100 ${
+        isOpen ? 'translate-y-0' : 'translate-y-full'
+      }`}
     >
-      <div className="container max-w-screen-xl mx-auto space-y-4">
+      <div className="container max-w-screen-xl mx-auto px-4 space-y-4">
         <div className="space-y-4 text-center">
           <div className="font-bold text-lg">{selectedVege.name}</div>
           <div className="flex justify-center space-x-8">
@@ -303,31 +322,6 @@ const SelectedVegetablePanel = ({
         >
           閉じる
         </Button>
-      </div>
-    </div>
-  );
-};
-
-const Footer = ({
-  showGermination,
-  showGrowth,
-  onToggleGermination,
-  onToggleGrowth,
-}: {
-  showGermination: boolean;
-  showGrowth: boolean;
-  onToggleGermination: () => void;
-  onToggleGrowth: () => void;
-}) => {
-  return (
-    <div className="fixed bottom-0 left-0 right-0 bg-foreground border-t border-foreground-nd p-4 shadow-lg">
-      <div className="flex justify-center gap-4">
-        <ToggleButton isOn={showGermination} onToggle={onToggleGermination}>
-          発芽適温表示
-        </ToggleButton>
-        <ToggleButton isOn={showGrowth} onToggle={onToggleGrowth}>
-          生育適温表示
-        </ToggleButton>
       </div>
     </div>
   );
