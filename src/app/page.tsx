@@ -71,90 +71,40 @@ export default function Home() {
 
   return (
     <>
-      <EnvironmentInfo
-        sendorData={sensorData}
-        vegeInfos={vegeInfos}
-        showGermination={showGermination}
-        showGrowth={showGrowth}
-        onVegetableSelect={setSelectedVege}
-      />
-
-      {selectedVege && (
-        <div
-          className={`fixed ${FOOTER_HEIGHT} left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light`}
-        >
-          <div className="container max-w-screen-xl mx-auto space-y-4">
-            <VegetableStatus
-              vegetable={selectedVege}
-              growthStatus={checkTemperatureStatus(
-                Number(sensorData.temperature) || 0,
-                selectedVege,
-                "growth",
-              )}
-              germinationStatus={checkTemperatureStatus(
-                Number(sensorData.temperature) || 0,
-                selectedVege,
-                "germination",
-              )}
-            />
-            <Button
-              onClick={() => setSelectedVege(null)}
-              variant="secondary"
-              icon="close"
-              className="w-full"
-            >
-              閉じる
-            </Button>
-          </div>
-        </div>
-      )}
-
-      <div className="fixed bottom-0 left-0 right-0 bg-foreground border-t border-foreground-nd p-4 shadow-lg">
-        <div className="flex justify-center gap-4">
-          <ToggleButton
-            isOn={showGermination}
-            onToggle={() => setShowGermination(!showGermination)}
-          >
-            発芽適温表示
-          </ToggleButton>
-          <ToggleButton
-            isOn={showGrowth}
-            onToggle={() => setShowGrowth(!showGrowth)}
-          >
-            生育適温表示
-          </ToggleButton>
+      <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow">
+        <SensorDataDisplay sensorData={sensorData} />
+        <VegetableStatusList
+          vegeInfos={vegeInfos}
+          currentTemperature={Number(sensorData.temperature) || 0}
+          showGermination={showGermination}
+          showGrowth={showGrowth}
+          onVegetableSelect={setSelectedVege}
+        />
+        <div className="w-full">
+          <RecentPhoto />
+          <p className="mt-2 text-center text-xs text-dark-sub">{`※ 画像は ${fetchInterval / 1000} 秒間隔で更新されます`}</p>
         </div>
       </div>
+
+      <SelectedVegetablePanel
+        selectedVege={selectedVege}
+        sensorData={sensorData}
+        onClose={() => setSelectedVege(null)}
+      />
+
+      <Footer
+        showGermination={showGermination}
+        showGrowth={showGrowth}
+        onToggleGermination={() => setShowGermination(!showGermination)}
+        onToggleGrowth={() => setShowGrowth(!showGrowth)}
+      />
     </>
   );
 }
 
-const EnvironmentInfo = ({
-  sendorData,
-  vegeInfos,
-  showGermination,
-  showGrowth,
-  onVegetableSelect,
-}: {
-  sendorData: SensorData;
-  vegeInfos: VegetableInfo[];
-  showGermination: boolean;
-  showGrowth: boolean;
-  onVegetableSelect: (vegetable: VegetableInfo) => void;
-}) => {
-  const temperature = sendorData.temperature;
-  const humidity = sendorData.humidity;
-  const currentTemperature = Number(sendorData.temperature) || 0;
-  const statusList: TemperatureStatus[] = [
-    "optimal",
-    "acceptable",
-    "warning",
-    "danger",
-  ];
-
-  if (vegeInfos.length === 0 || currentTemperature === 0) {
-    return null;
-  }
+const SensorDataDisplay = ({ sensorData }: { sensorData: SensorData }) => {
+  const temperature = sensorData.temperature;
+  const humidity = sensorData.humidity;
 
   // 10-30: #3b82f6-#c41e1e
   const tempNum = Math.min(Math.max(Number(temperature), 10), 30);
@@ -173,97 +123,125 @@ const EnvironmentInfo = ({
   const humColor = `rgb(${hr},${hg},${hb})`;
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 space-y-4 bg-background-nd rounded-lg shadow">
-      <div className="flex flex-row justify-between items-center w-full max-w-80 mx-auto">
-        <p>
-          <span className="text-sm text-dark-sub">センターデータ取得時刻</span>
-          <br />
-          {sendorData.datetime}
-        </p>
-        <div>
-          <span className="text-2xl font-bold" style={{ color: tempColor }}>
-            {temperature}
-          </span>
-          <span className="inline-block w-6 text-right text-xl">℃</span>
-          <br />
-          <span className="text-2xl font-bold" style={{ color: humColor }}>
-            {humidity}
-          </span>
-          <span className="inline-block w-6 text-right text-xl">%</span>
-        </div>
-      </div>
-      <div className="w-full space-y-3">
-        <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1">
-          {vegeInfos.map((vegetable) => {
-            const growStatus = checkTemperatureStatus(
-              currentTemperature,
-              vegetable,
-              "growth",
-            );
-            const germStatus = checkTemperatureStatus(
-              currentTemperature,
-              vegetable,
-              "germination",
-            );
-
-            return (
-              <button
-                key={vegetable.id}
-                type="button"
-                className="flex flex-col items-center py-2 px-1 bg-primary hover:bg-primary-hover w-full rounded shadow text-light"
-                onClick={() => onVegetableSelect(vegetable)}
-              >
-                <div className="flex gap-1 mb-1">
-                  {showGermination && (
-                    <StatusIcon status={germStatus} stage="germination" />
-                  )}
-                  {showGrowth && (
-                    <StatusIcon status={growStatus} stage="growth" />
-                  )}
-                </div>
-                <span className="w-full text-xs text-nowrap text-clip overflow-hidden">
-                  {vegetable.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="flex items-center justify-center gap-4 py-1 bg-primary rounded-full text-light">
-          {statusList.map((status) => (
-            <div key={status} className="flex items-center gap-1">
-              <StatusIcon status={status} stage="growth" />
-              <span>{getStatusText(status)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="w-full">
-        <RecentPhoto />
-        <p className="mt-2 text-center text-xs text-dark-sub">{`※ 画像は ${fetchInterval / 1000} 秒間隔で更新されます`}</p>
+    <div className="flex flex-row justify-between items-center w-full max-w-80 mx-auto">
+      <p>
+        <span className="text-sm text-dark-sub">センターデータ取得時刻</span>
+        <br />
+        {sensorData.datetime}
+      </p>
+      <div>
+        <span className="text-2xl font-bold" style={{ color: tempColor }}>
+          {temperature}
+        </span>
+        <span className="inline-block w-6 text-right text-xl">℃</span>
+        <br />
+        <span className="text-2xl font-bold" style={{ color: humColor }}>
+          {humidity}
+        </span>
+        <span className="inline-block w-6 text-right text-xl">%</span>
       </div>
     </div>
   );
 };
 
-interface IndicatorInfoProps {
-  vegetable: VegetableInfo;
-  growthStatus: TemperatureStatus;
-  germinationStatus: TemperatureStatus;
-}
+const VegetableStatusList = ({
+  vegeInfos,
+  currentTemperature,
+  showGermination,
+  showGrowth,
+  onVegetableSelect,
+}: {
+  vegeInfos: VegetableInfo[];
+  currentTemperature: number;
+  showGermination: boolean;
+  showGrowth: boolean;
+  onVegetableSelect: (vegetable: VegetableInfo) => void;
+}) => {
+  const statusList: TemperatureStatus[] = [
+    "optimal",
+    "acceptable",
+    "warning",
+    "danger",
+  ];
 
-export const VegetableStatus = ({
-  vegetable,
-  growthStatus,
-  germinationStatus,
-}: IndicatorInfoProps) => {
+  return (
+    <div className="w-full space-y-3">
+      <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-1">
+        {vegeInfos.map((vegetable) => {
+          const growStatus = checkTemperatureStatus(
+            currentTemperature,
+            vegetable,
+            "growth",
+          );
+          const germStatus = checkTemperatureStatus(
+            currentTemperature,
+            vegetable,
+            "germination",
+          );
+
+          return (
+            <button
+              key={vegetable.id}
+              type="button"
+              className="flex flex-col items-center py-2 px-1 bg-primary hover:bg-primary-hover w-full rounded shadow text-light"
+              onClick={() => onVegetableSelect(vegetable)}
+            >
+              <div className="flex gap-1 mb-1">
+                {showGermination && (
+                  <StatusIcon status={germStatus} stage="germination" />
+                )}
+                {showGrowth && (
+                  <StatusIcon status={growStatus} stage="growth" />
+                )}
+              </div>
+              <span className="w-full text-xs text-nowrap text-clip overflow-hidden">
+                {vegetable.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex items-center justify-center gap-4 py-1 bg-primary rounded-full text-light">
+        {statusList.map((status) => (
+          <div key={status} className="flex items-center gap-1">
+            <StatusIcon status={status} stage="growth" />
+            <span>{getStatusText(status)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SelectedVegetablePanel = ({
+  selectedVege,
+  sensorData,
+  onClose,
+}: {
+  selectedVege: VegetableInfo | null;
+  sensorData: SensorData;
+  onClose: () => void;
+}) => {
+  if (!selectedVege) return null;
+
   function formatRange(range: { low: number | null; high: number | null }) {
     const low = range.low !== null ? `${range.low}℃` : "－℃";
     const high = range.high !== null ? `${range.high}℃` : "－℃";
     return `${low} ～ ${high}`;
   }
 
-  const growth = vegetable.temperature.growth;
-  const germination = vegetable.temperature.germination;
+  const growth = selectedVege.temperature.growth;
+  const germination = selectedVege.temperature.germination;
+  const growthStatus = checkTemperatureStatus(
+    Number(sensorData.temperature) || 0,
+    selectedVege,
+    "growth",
+  );
+  const germinationStatus = checkTemperatureStatus(
+    Number(sensorData.temperature) || 0,
+    selectedVege,
+    "germination",
+  );
 
   const Status = ({ category }: { category: TemperatureCategory }) => {
     const isGrowth = category === "growth";
@@ -306,11 +284,50 @@ export const VegetableStatus = ({
   };
 
   return (
-    <div className="space-y-4 text-center">
-      <div className="font-bold text-lg">{vegetable.name}</div>
-      <div className="flex justify-center space-x-8">
-        <Status category="growth" />
-        <Status category="germination" />
+    <div
+      className={`fixed ${FOOTER_HEIGHT} left-0 right-0 bg-foreground-nd border-t border-foreground-th p-4 text-light`}
+    >
+      <div className="container max-w-screen-xl mx-auto space-y-4">
+        <div className="space-y-4 text-center">
+          <div className="font-bold text-lg">{selectedVege.name}</div>
+          <div className="flex justify-center space-x-8">
+            <Status category="growth" />
+            <Status category="germination" />
+          </div>
+        </div>
+        <Button
+          onClick={onClose}
+          variant="secondary"
+          icon="close"
+          className="w-full"
+        >
+          閉じる
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const Footer = ({
+  showGermination,
+  showGrowth,
+  onToggleGermination,
+  onToggleGrowth,
+}: {
+  showGermination: boolean;
+  showGrowth: boolean;
+  onToggleGermination: () => void;
+  onToggleGrowth: () => void;
+}) => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-foreground border-t border-foreground-nd p-4 shadow-lg">
+      <div className="flex justify-center gap-4">
+        <ToggleButton isOn={showGermination} onToggle={onToggleGermination}>
+          発芽適温表示
+        </ToggleButton>
+        <ToggleButton isOn={showGrowth} onToggle={onToggleGrowth}>
+          生育適温表示
+        </ToggleButton>
       </div>
     </div>
   );
