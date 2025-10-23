@@ -95,3 +95,73 @@ export function getStatusText(status: TemperatureStatus): string {
       return "不明";
   }
 }
+
+export function getTemperatureColor(temperature: number): string {
+  if (temperature >= 35) {
+    return "#b40068";
+  } else if (temperature >= 30) {
+    return "#ff2800";
+  } else if (temperature >= 25) {
+    return "#ff9900";
+  } else if (temperature >= 20) {
+    return "#faf500";
+  } else if (temperature >= 15) {
+    return "#ffff96";
+  } else if (temperature >= 10) {
+    return "#fffff0";
+  } else if (temperature >= 5) {
+    return "#b9ebff";
+  } else if (temperature >= 0) {
+    return "#0096ff";
+  } else if (temperature >= -5) {
+    return "#0041ff";
+  } else {
+    return "#002080";
+  }
+}
+
+export function getHumidityColor(humidity: number): string {
+  if (humidity >= 100) {
+    return "#011f7d";
+  } else if (humidity >= 90) {
+    return "#004b96";
+  } else if (humidity >= 80) {
+    return "#00729a";
+  } else if (humidity >= 70) {
+    return "#1fc2d3";
+  } else if (humidity >= 60) {
+    return "#80f8e7";
+  } else if (humidity >= 50) {
+    return "#fffff0";
+  } else if (humidity >= 40) {
+    return "#ffc846";
+  } else if (humidity >= 30) {
+    return "#e78707";
+  } else if (humidity >= 20) {
+    return "#ab4a01";
+  } else if (humidity >= 10) {
+    return "#761100";
+  } else {
+    return "#540600";
+  }
+}
+
+export function getPrecipitationColor(precipitation: number): string {
+  if (precipitation >= 80) {
+    return "#b40068";
+  } else if (precipitation >= 50) {
+    return "#b40068";
+  } else if (precipitation >= 30) {
+    return "#ff9900";
+  } else if (precipitation >= 20) {
+    return "#faf500";
+  } else if (precipitation >= 10) {
+    return "#0041ff";
+  } else if (precipitation >= 5) {
+    return "#218cff";
+  } else if (precipitation >= 1) {
+    return "#a0d2ff";
+  } else {
+    return "#f2f2ff";
+  }
+}

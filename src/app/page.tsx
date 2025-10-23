@@ -17,8 +17,11 @@ import {
 } from "@/types/types";
 import {
   checkTemperatureStatus,
+  getHumidityColor,
+  getPrecipitationColor,
   getStatusBgColor,
   getStatusText,
+  getTemperatureColor,
 } from "@/utils/util";
 
 const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
@@ -130,21 +133,8 @@ const SensorDataDisplay = ({ sensorData }: { sensorData: SensorData }) => {
   const temperature = sensorData.temperature;
   const humidity = sensorData.humidity;
 
-  // 10-30: #3b82f6-#c41e1e
-  const tempNum = Math.min(Math.max(Number(temperature), 10), 30);
-  const ratio = (tempNum - 10) / 20;
-  const r = Math.round(59 + ratio * (200 - 59));
-  const g = Math.round(130 - ratio * (130 - 30));
-  const b = Math.round(246 - ratio * (246 - 30));
-  const tempColor = `rgb(${r},${g},${b})`;
-
-  // 40-70: #38bdf8-#3b82f6
-  const humNum = Math.min(Math.max(Number(humidity), 40), 70);
-  const humRatio = (humNum - 40) / 30;
-  const hr = Math.round(56 + humRatio * (59 - 56));
-  const hg = Math.round(189 + humRatio * (130 - 189));
-  const hb = Math.round(248 + humRatio * (246 - 248));
-  const humColor = `rgb(${hr},${hg},${hb})`;
+  const tempColor = getTemperatureColor(Number(temperature) || 0);
+  const humColor = getHumidityColor(Number(humidity) || 0);
 
   return (
     <div className="w-full space-y-2 text-center">
@@ -174,22 +164,7 @@ const WeatherDataDisplay = ({
   const prefecture = weatherData.prefecture;
   const location = weatherData.location;
   const precipitation = weatherData.precipitation;
-  let color = "#fff";
-  if (precipitation >= 80) {
-    color = "#c4007d";
-  } else if (precipitation >= 50) {
-    color = "#e60000";
-  } else if (precipitation >= 30) {
-    color = "#ff9800";
-  } else if (precipitation >= 20) {
-    color = "#0094ff";
-  } else if (precipitation >= 10) {
-    color = "#38bdf8";
-  } else if (precipitation >= 5) {
-    color = "#7ad3f9";
-  } else if (precipitation >= 1) {
-    color = "#eaf4fc";
-  }
+  const color = getPrecipitationColor(precipitation);
 
   return (
     <div className="w-full space-y-2 text-center">
