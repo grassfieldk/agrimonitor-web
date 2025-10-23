@@ -28,6 +28,7 @@ export const RecentPhoto = () => {
           sizes="(max-width: 640px) 100vw, 640px"
           className="object-cover bg-black border border-neutral-700 rounded-lg"
           priority
+          unoptimized={true}
         />
       )}
     </div>
