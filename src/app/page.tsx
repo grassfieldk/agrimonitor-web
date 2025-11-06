@@ -51,26 +51,37 @@ export default function Home() {
     let timer: NodeJS.Timeout;
 
     const fetchData = async () => {
-      const sensorRes = await fetch("/api/sensor");
-      const sensorData: SensorData = await sensorRes.json();
-      setSensorData(sensorData);
+      try {
+        const sensorRes = await fetch("/api/sensor");
+        if (!sensorRes.ok)
+          throw new Error(`Failed to fetch sensor data: ${sensorRes.status}`);
+        const sensorData: SensorData = await sensorRes.json();
+        setSensorData(sensorData);
 
-      const weatherRes = await fetch("/api/weather");
-      const weatherData: WeatherData = await weatherRes.json();
-      setWeatherData(weatherData);
+        const weatherRes = await fetch("/api/weather");
+        if (!weatherRes.ok)
+          throw new Error(`Failed to fetch weather data: ${weatherRes.status}`);
+        const weatherData: WeatherData = await weatherRes.json();
+        setWeatherData(weatherData);
 
-      const vegeRes = await fetch("/api/crud?table=vegetables");
-      const vegeInfos: VegetableInfo[] = await vegeRes.json();
-      console.log(
-        "All vegetables:",
-        vegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
-      );
-      const enabledVegeInfos = vegeInfos.filter((vege) => vege.enabled);
-      console.log(
-        "Enabled vegetables:",
-        enabledVegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
-      );
-      setVegeInfos(enabledVegeInfos);
+        const vegeRes = await fetch("/api/crud?table=vegetables");
+        if (!vegeRes.ok)
+          throw new Error(`Failed to fetch vegetable data: ${vegeRes.status}`);
+        const vegeInfos: VegetableInfo[] = await vegeRes.json();
+        console.log(
+          "All vegetables:",
+          vegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
+        );
+        const enabledVegeInfos = vegeInfos.filter((vege) => vege.enabled);
+        console.log(
+          "Enabled vegetables:",
+          enabledVegeInfos.map((v) => ({ name: v.name, enabled: v.enabled })),
+        );
+        setVegeInfos(enabledVegeInfos);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        clearInterval(timer);
+      }
     };
 
     fetchData();
