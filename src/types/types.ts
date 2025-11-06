@@ -21,6 +21,16 @@ export type WeatherData = {
   recordPrecipitation: number;
   octoberRecord: number;
 };
+export const initialWeatherData: WeatherData = {
+  locationNumber: "-",
+  dateTime: "-",
+  prefecture: "-",
+  location: "-",
+  precipitation: 0,
+  maxPrecipitationToday: 0,
+  recordPrecipitation: 0,
+  octoberRecord: 0,
+};
 
 export type VegetableInfo = {
   id: number;

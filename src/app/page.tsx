@@ -9,6 +9,7 @@ import { Footer } from "@/components/ui/Footer";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import {
   initialSensorData,
+  initialWeatherData,
   type SensorData,
   type TemperatureCategory,
   type TemperatureStatus,
@@ -28,7 +29,7 @@ const fetchInterval = Number(process.env.NEXT_PUBLIC_FETCH_INTERVAL);
 
 export default function Home() {
   const [sensorData, setSensorData] = useState<SensorData>(initialSensorData);
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData>(initialWeatherData);
   const [vegeInfos, setVegeInfos] = useState<VegetableInfo[]>([]);
   const [showGermination, setShowGermination] = useState<boolean>(false);
   const [showGrowth, setShowGrowth] = useState<boolean>(true);
@@ -165,11 +166,7 @@ const SensorDataDisplay = ({ sensorData }: { sensorData: SensorData }) => {
   );
 };
 
-const WeatherDataDisplay = ({
-  weatherData,
-}: {
-  weatherData: WeatherData | null;
-}) => {
+const WeatherDataDisplay = ({ weatherData }: { weatherData: WeatherData }) => {
   if (!weatherData) return null;
 
   const prefecture = weatherData.prefecture;
